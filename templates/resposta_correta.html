@@ -16,35 +16,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Home</title>
+    <title>Resposta Correta</title>
 </head>
 
 <body>
     <div class="container" style="margin-top: 10%">
         <div class="row">
             <div class="col-lg">
-                <form method="post" action="/iniciar_partida/">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Iniciar Nova Partida</label>
-                        <input type="partida" class="form-control" id="partida" name="partida"
-                            aria-describedby="emailHelp" placeholder="Digite o ID da partida">
-                        <small id="emailHelp" class="form-text text-muted">Digite o ID da partida</small>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Iniciar</button>
-                </form>
+                <p style="font-size: 300%">RESPOSTA CORRETA !!</p>
             </div>
-            <div class="col-sm"></div>
-            <div class="col-lg" style="background-color:lightgray">
-                <div class="row" style="margin-top: 10%; margin-left: 10%">
-                    <b><p>Pontuação Total:</p></b>
-                </div>
-                <div class="row" style="margin-left: 10%">
-                    <p>{{ pontuacao.pontuacao }}</p>
-                </div>
+        </div>
+        <div class="row">
+            <div class="col-lg">
+                <p style="font-size: 200%">Pergunta: {{ pergunta.pergunta }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg">
+                <p style="font-size: 150%"><b>Alternativa:</b> {{ pergunta.resposta }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg">
+                <p style="font-size: 150%"><b>Resposta Correta:</b> {{ resposta }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg">
+                <!-- TODO:RECEBEBR URL DO BANCO -->
+                <img src="https://i.gifer.com/Uzg1.gif" width="50%">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md">
+                <form method="GET" action="/perguntas/">
+                    <div class="form-group row">
+                        <div class="col-sm-10">
+                            <button type="submit" class="btn btn-primary">Proxima Pergunta</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-
 </body>
 
 </html>

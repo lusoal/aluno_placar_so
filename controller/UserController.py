@@ -37,8 +37,9 @@ def user_home():
     if not flask_confs.validate_session(session):
         return redirect(url_for('user_controller.login'))
     print(session)
+    pontuacao = userService.get_pontuacao_jogador(session['user_id'])
     session['pergunta_index'] = 0
-    return render_template("user_index.html")
+    return render_template("user_index.html", pontuacao = pontuacao)
 
 @user_controller.route('/iniciar_partida/', methods=['POST'])
 def iniciar_partida():
@@ -73,9 +74,30 @@ def responder_pergunta():
     escolha_pergunta = request.form['opt']
     print(f"RESPOSTA_ESCOLHIDA: {escolha_pergunta}")
     if escolha_pergunta == session['pergunta_rodada'].get('resposta'):
-        return "Mostrar Animacao e validar respostas e pontuar"
+        #Pontuando corretamente a resposta
+        userService.pontuar_sessao_usuario(session['sessao_id'])
+        return redirect(url_for('user_controller.resposta_correta'))
     else:
-        return "Mostrar Animacao e falar que resposta e incorretas"
+        return redirect(url_for('user_controller.resposta_incorreta'))
+
+@user_controller.route('/resposta_correta/', methods=['GET'])
+def resposta_correta():
+    valor_resposta = None
+    for key, value in session['pergunta_rodada'].items():
+        if "alternativa"+session['pergunta_rodada'].get("resposta") in key:
+            valor_resposta = value
+            break
+    return render_template("resposta_correta.html", resposta = valor_resposta, pergunta = session['pergunta_rodada'])
+    
+
+@user_controller.route('/resposta_incorreta/', methods=['GET'])
+def resposta_incorreta():
+    valor_resposta = None
+    for key, value in session['pergunta_rodada'].items():
+        if "alternativa"+session['pergunta_rodada'].get("resposta") in key:
+            valor_resposta = value
+            break
+    return render_template("resposta_incorreta.html", resposta = valor_resposta, pergunta = session['pergunta_rodada'])
 
 @user_controller.route('/logout/', methods=['GET', 'POST'])
 def logout():
