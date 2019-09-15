@@ -67,7 +67,10 @@ def get_pergunta():
         session['pergunta_rodada'] = pergunta
         return render_template("pergunta.html", pergunta = pergunta)
     else:
-        return "Enviar para Jogo Finalizado"
+        session.pop('sessao_id')
+        session.pop('partida_id')
+        session.pop('pergunta_rodada')
+        return redirect(url_for('user_controller.jogo_finalizado'))
 
 @user_controller.route('/responder_pergunta/', methods=['POST'])
 def responder_pergunta():
@@ -98,6 +101,12 @@ def resposta_incorreta():
             valor_resposta = value
             break
     return render_template("resposta_incorreta.html", resposta = valor_resposta, pergunta = session['pergunta_rodada'])
+
+@user_controller.route('/jogo_finalizado/', methods=['GET'])
+def jogo_finalizado():
+    if not flask_confs.validate_session(session):
+        return redirect(url_for('user_controller.login'))
+    return render_template("partida_finalizada.html")
 
 @user_controller.route('/logout/', methods=['GET', 'POST'])
 def logout():
