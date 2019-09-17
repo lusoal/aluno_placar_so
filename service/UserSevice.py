@@ -8,7 +8,7 @@ class UserService(object):
         payload = {'usuario': user.username, 'senha': user.password}
         headers = {'content-type': "application/json"}
         try:
-            response = requests.post(f"{os.environ.get('URL_APPLICATION','http://localhost:8888')}/api/login/", 
+            response = requests.post(f"http://{os.environ.get('URL_APPLICATION','localhost:8888')}/api/login/", 
                 data=json.dumps(payload), headers=headers)
             if (response.status_code == 200):
                 user.id = response.json().get('id')
@@ -23,7 +23,7 @@ class UserService(object):
         payload = {'partida_id': partid_id, 'jogador_id': jogador_id}
         headers = {'content-type': "application/json"}
         try:
-            response = requests.post(f"{os.environ.get('URL_APPLICATION','http://localhost:8888')}/api/sessao/", 
+            response = requests.post(f"http://{os.environ.get('URL_APPLICATION','localhost:8888')}/api/sessao/", 
                 data=json.dumps(payload), headers=headers)
             if (response.status_code == 200):
                 sessao_id = response.json().get('sessao_id')
@@ -37,7 +37,7 @@ class UserService(object):
     def get_perguntas(self, partid_id):
         headers = {'content-type': "application/json"}
         try:
-            response = requests.get(f"{os.environ.get('URL_APPLICATION','http://localhost:8888')}/api/partida/perguntas/{int(partid_id)}/"
+            response = requests.get(f"http://{os.environ.get('URL_APPLICATION','localhost:8888')}/api/partida/perguntas/{int(partid_id)}/"
                 ,headers=headers)
             if (response.status_code == 200):
                 print(response.json())
@@ -50,7 +50,7 @@ class UserService(object):
     def get_pontuacao_jogador(self, jogador_id):
         headers = {'content-type': "application/json"}
         try:
-            response = requests.get(f"{os.environ.get('URL_APPLICATION','http://localhost:8888')}/api/historico/pontuacao/{int(jogador_id)}/"
+            response = requests.get(f"http://{os.environ.get('URL_APPLICATION','localhost:8888')}/api/historico/pontuacao/{int(jogador_id)}/"
                 ,headers=headers)
             if (response.status_code == 200):
                 print(response.json())
@@ -70,7 +70,7 @@ class UserService(object):
     def pontuar_sessao_usuario(self, sessao_id):
         headers = {'content-type': "application/json"}
         try:
-            response = requests.post(f"{os.environ.get('URL_APPLICATION','http://localhost:8888')}/api/sessao/pontuar/{sessao_id}", 
+            response = requests.post(f"http://{os.environ.get('URL_APPLICATION','localhost:8888')}/api/sessao/pontuar/{sessao_id}", 
             headers=headers)
             print(response.json())
         except Exception as e:

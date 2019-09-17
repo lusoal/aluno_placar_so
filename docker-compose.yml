@@ -1,0 +1,45 @@
+version: '3.3'
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: my_sql
+    networks:
+      - project-network
+    volumes:
+       - ./data:/var/lib/mysql
+    environment:
+        MYSQL_DATABASE: jogoSo
+        MYSQL_ROOT_PASSWORD: root
+    ports:
+        - "3306:3306"
+  apiso:
+      depends_on:
+        - mysql
+      build: ../springboot/placarSo/
+      networks:
+        - project-network
+      ports:
+        - "8888:8888"
+      restart: always
+      environment:
+        MYSQL_HOST: mysql
+        MYSQL_USERNAME: root
+        MYSQL_PASSWORD: root
+  clientso:
+      depends_on:
+        - mysql
+        - apiso
+      build: .
+      networks:
+        - project-network
+      ports:
+        - "5000:5000"
+      restart: always
+      volumes:
+        - ./:/app
+      environment:
+        URL_APPLICATION: apiso:8888
+networks:
+  project-network:
+    driver: bridge
+  
