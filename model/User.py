@@ -1,9 +1,8 @@
 
 class User(object):
 
-    def __init__(self, user, password, id = None):
+    def __init__(self, user, id = None):
         self.username = user
-        self.password = password
         self.id = id
         
     def __repr__(self):

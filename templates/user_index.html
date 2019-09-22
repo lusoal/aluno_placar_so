@@ -36,11 +36,20 @@
             <div class="col-sm"></div>
             <div class="col-lg" style="background-color:lightgray">
                 <div class="row" style="margin-top: 10%; margin-left: 10%">
-                    <b><p>Pontuação Total:</p></b>
+                    <b>
+                        <p>Pontuação Total:</p>
+                    </b>
                 </div>
                 <div class="row" style="margin-left: 10%">
                     <p>{{ pontuacao.pontuacao }}</p>
                 </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 20%">
+            <div class="col-lg">
+                <form method="post" action="/logout/">
+                    <button type="submit" class="btn btn-primary">Logout</button>
+                </form>
             </div>
         </div>
     </div>

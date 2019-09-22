@@ -15,11 +15,12 @@ def index():
 
 @user_controller.route('/login/', methods=['GET', 'POST'])
 def login():
+    if flask_confs.validate_session(session):
+        print(session['username'])
+        return redirect(url_for("user_controller.user_home"))
     if request.method == 'POST':
         username = request.form['username']
-        password = request.form['password']
-        
-        usuario = User(username, password)
+        usuario = User(username)
         try:
             if (userService.realizar_login(usuario)):
                 session['user_id'] = usuario.id
@@ -106,11 +107,15 @@ def resposta_incorreta():
 def jogo_finalizado():
     if not flask_confs.validate_session(session):
         return redirect(url_for('user_controller.login'))
-    return render_template("partida_finalizada.html")
+    return render_template("partida_finalizada.html", enabled = True)
 
 @user_controller.route('/logout/', methods=['GET', 'POST'])
 def logout():
     if not flask_confs.validate_session(session):
         return redirect(url_for('user_controller.login'))
-    session.clear()
-    return redirect(url_for('user_controller.login'))
+    if(userService.realizar_logout(session['user_id'])):
+        session.clear()
+        return redirect(url_for('user_controller.login'))
+    else:
+        print("Error")
+        return redirect(url_for('user_controller.user_home'))
