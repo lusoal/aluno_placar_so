@@ -48,7 +48,11 @@
         <div class="row" style="margin-top: 20%">
             <div class="col-lg">
                 <form method="post" action="/logout/">
-                    <button type="submit" class="btn btn-primary">Logout</button>
+                    {% if partida_iniciada == True %}
+                        <button type="submit" class="btn btn-primary" disabled>Logout</button>
+                    {% else %}
+                        <button type="submit" class="btn btn-primary">Logout</button>
+                    {% endif %}
                 </form>
             </div>
         </div>

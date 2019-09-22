@@ -89,3 +89,9 @@ class UserService(object):
                 False
         except Exception as e:
             raise e
+    
+    def get_partida_iniciada(self):
+        headers = {'content-type': "application/json"}
+        response = requests.get(f"http://{os.environ.get('URL_APPLICATION','localhost:8080')}/api/partida/iniciada/", 
+            headers=headers)
+        return response.json().get('message')

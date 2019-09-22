@@ -38,9 +38,13 @@ def user_home():
     if not flask_confs.validate_session(session):
         return redirect(url_for('user_controller.login'))
     print(session)
+    partida_iniciada = False
     pontuacao = userService.get_pontuacao_jogador(session['user_id'])
     session['pergunta_index'] = 0
-    return render_template("user_index.html", pontuacao = pontuacao)
+    print(session.get('partida_id'))
+    if (session.get('partida_id')):
+        partida_iniciada = userService.get_partida_iniciada()
+    return render_template("user_index.html", pontuacao = pontuacao, partida_iniciada=partida_iniciada)
 
 @user_controller.route('/iniciar_partida/', methods=['POST'])
 def iniciar_partida():
@@ -51,7 +55,7 @@ def iniciar_partida():
     try:
         sessao_id = userService.iniciar_partida(partida_id, session['user_id'])
         session['sessao_id'] = sessao_id
-        session['partida_id'] = partida_id
+        session['partida_id'] = partida_id 
         print(session)
         return redirect(url_for('user_controller.get_pergunta'))
     except Exception as e:
@@ -60,6 +64,8 @@ def iniciar_partida():
 
 @user_controller.route('/perguntas/', methods=['GET'])
 def get_pergunta():
+    if not flask_confs.validate_session(session):
+        return redirect(url_for('user_controller.login'))
     perguntas = userService.get_perguntas(session['partida_id'])
     pergunta = userService.define_pergunta(perguntas, session['pergunta_index'])
     if(pergunta):
@@ -69,12 +75,14 @@ def get_pergunta():
         return render_template("pergunta.html", pergunta = pergunta)
     else:
         session.pop('sessao_id')
-        session.pop('partida_id')
+        # session.pop('partida_id')
         session.pop('pergunta_rodada')
         return redirect(url_for('user_controller.jogo_finalizado'))
 
 @user_controller.route('/responder_pergunta/', methods=['POST'])
 def responder_pergunta():
+    if not flask_confs.validate_session(session):
+        return redirect(url_for('user_controller.login'))
     escolha_pergunta = request.form['opt']
     print(f"RESPOSTA_ESCOLHIDA: {escolha_pergunta}")
     if escolha_pergunta == session['pergunta_rodada'].get('resposta'):
@@ -86,6 +94,8 @@ def responder_pergunta():
 
 @user_controller.route('/resposta_correta/', methods=['GET'])
 def resposta_correta():
+    if not flask_confs.validate_session(session):
+        return redirect(url_for('user_controller.login'))
     valor_resposta = None
     for key, value in session['pergunta_rodada'].items():
         if "alternativa"+session['pergunta_rodada'].get("resposta") in key:
@@ -96,6 +106,8 @@ def resposta_correta():
 
 @user_controller.route('/resposta_incorreta/', methods=['GET'])
 def resposta_incorreta():
+    if not flask_confs.validate_session(session):
+        return redirect(url_for('user_controller.login'))
     valor_resposta = None
     for key, value in session['pergunta_rodada'].items():
         if "alternativa"+session['pergunta_rodada'].get("resposta") in key:
