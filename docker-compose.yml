@@ -15,7 +15,7 @@ services:
   apiso:
       depends_on:
         - mysql
-      build: ../springboot/placarSo/
+      build: /opt/score-dashboard/
       networks:
         - project-network
       ports:
