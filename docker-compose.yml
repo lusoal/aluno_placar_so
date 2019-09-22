@@ -6,7 +6,7 @@ services:
     networks:
       - project-network
     volumes:
-       - ./data:/var/lib/mysql
+       - /opt/data-mysql:/var/lib/mysql
     environment:
         MYSQL_DATABASE: jogoSo
         MYSQL_ROOT_PASSWORD: root
@@ -19,7 +19,7 @@ services:
       networks:
         - project-network
       ports:
-        - "8888:8888"
+        - "8080:8080"
       restart: always
       environment:
         MYSQL_HOST: mysql
@@ -38,7 +38,7 @@ services:
       volumes:
         - ./:/app
       environment:
-        URL_APPLICATION: apiso:8888
+        URL_APPLICATION: apiso:8080
 networks:
   project-network:
     driver: bridge
