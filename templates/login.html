@@ -2,12 +2,11 @@
 <html>
 
 <head>
+    <link rel="stylesheet" href="css/style.css">
+
   <style>
     /* BASIC */
 
-    html {
-      background-color: #56baed;
-    }
 
     body {
       font-family: "Poppins", sans-serif;
@@ -88,7 +87,7 @@
     input[type=button],
     input[type=submit],
     input[type=reset] {
-      background-color: #56baed;
+      background-color: #008000bf!important;
       border: none;
       color: white;
       padding: 15px 80px;
@@ -317,6 +316,9 @@
   <title>Resposta Correta</title>
 </head>
 
+<!--MENU-->
+<div id="menu"></div>
+
 
 <body>
   <div class="wrapper fadeInDown">
@@ -332,6 +334,16 @@
   </div>
 
 
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+
 </body>
+
+<script>
+    $("#menu").load("menu.html");
+</script>
+
 
 </html>
